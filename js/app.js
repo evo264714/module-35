@@ -38,6 +38,7 @@ const displayPhones = (phones, dataLimit) =>{
                         <div class="card-body">
                           <h5 class="card-title">${phone.phone_name}</h5>
                           <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                          <button onclick="loadPhoneDetails('${phone.slug}')" class="btn btn-primary">Show details</button>
                         </div>
                       </div>
         `
@@ -60,7 +61,16 @@ const processSearch = (dataLimit) =>{
 document.getElementById('btn-search').addEventListener('click', function(){
 
     //! Start Loader
-    processSearch(10)
+    processSearch(10);
+})
+
+//! Search input field enter key handler
+document.getElementById('search-field').addEventListener('keypress', function(e){
+    
+    if(e.key === 'Enter'){
+        processSearch(10);
+
+    }
 })
 
 const toggleSpinner = isLoading =>{
@@ -78,4 +88,14 @@ const toggleSpinner = isLoading =>{
 document.getElementById('btn-showall').addEventListener('click', function(){
     processSearch();
 })
+
+const loadPhoneDetails = async id =>{
+    const url = `https://openapi.programming-hero.com/api/phone/${id}`;
+    const res = await fetch(url)
+    const data = await res.json();
+    console.log(data.data);
+}
+
+
+
 // loadPhones();
